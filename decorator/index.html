@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Apartment Decorator</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="ui" class="ui hidden">
+        <header class="top-bar">
+            <div class="tabs">
+                <button class="tab active" data-tab="creation">Creation <span>1</span></button>
+                <button class="tab" data-tab="advanced">Advanced Creation <span>2</span></button>
+            </div>
+            <!-- <div class="action-buttons">
+                <button data-command="save">Save</button>
+                <button data-command="undo">Undo</button>
+                <button data-command="redo">Redo</button>
+                <button data-command="discard">Discard</button>
+                <button data-command="shopping">Shopping List</button>
+                <button data-command="settings">Settings</button>
+                <button data-command="faq">FAQ</button>
+            </div> -->
+        </header>
+
+        <main class="workspace">
+            <aside id="leftPanel" class="panel left open">
+                <div class="panel-header">
+                    <h2>Furniture List</h2>
+                    <button class="collapse" data-target="left">Hide panel</button>
+                </div>
+                <div class="mode-toggle">
+                    <button data-mode="edit" class="active">Edit</button>
+                    <button data-mode="placed">Placed</button>
+                </div>
+                <div class="search-field">
+                    <input id="search" type="text" placeholder="Search objects" autocomplete="off" />
+                    <button id="clearSearch">×</button>
+                </div>
+                <div id="leftList" class="item-list"></div>
+            </aside>
+
+            <!-- <aside id="rightPanel" class="panel right open"> -->
+                <!-- <div class="panel-header">
+                    <h2>Object Settings</h2>
+                    <button class="collapse" data-target="right">Hide panel</button>
+                </div> -->
+
+                <!-- <section class="settings-group">
+                    <div class="setting">
+                        <label>Snap Movement <span id="snapMoveValue">0.00</span></label>
+                        <input id="snapMove" type="range" min="0" max="1" step="0.01" />
+                    </div>
+                    <div class="setting">
+                        <label>Snap Rotation <span id="snapRotValue">0</span></label>
+                        <input id="snapRot" type="range" min="0" max="45" step="1" />
+                    </div>
+                    <div class="setting">
+                        <label>Camera Speed <span id="camSpeedValue">0.00</span></label>
+                        <input id="camSpeed" type="range" min="0.02" max="1" step="0.01" />
+                    </div>
+                </section> -->
+
+                <!-- <section class="info-group">
+                    <h3>Item Information</h3>
+                    <div class="info-grid">
+                        <div>
+                            <span>Model Hash</span>
+                            <p id="infoHash">-</p>
+                        </div>
+                        <div>
+                            <span>Display Name</span>
+                            <p id="infoLabel">-</p>
+                        </div>
+                    </div>
+                </section> -->
+
+                <!-- <section class="info-group">
+                    <h3>Item Position</h3>
+                    <div class="info-grid three">
+                        <div>
+                            <span>X position</span>
+                            <p id="posX">0</p>
+                        </div>
+                        <div>
+                            <span>Y position</span>
+                            <p id="posY">0</p>
+                        </div>
+                        <div>
+                            <span>Z position</span>
+                            <p id="posZ">0</p>
+                        </div>
+                        <div>
+                            <span>X rotation</span>
+                            <p id="rotX">0</p>
+                        </div>
+                        <div>
+                            <span>Y rotation</span>
+                            <p id="rotY">0</p>
+                        </div>
+                        <div>
+                            <span>Z rotation</span>
+                            <p id="rotZ">0</p>
+                        </div>
+                    </div>
+                </section> -->
+
+                <!-- <section class="info-group">
+                    <h3>Item Material</h3>
+                    <div class="info-grid">
+                        <div>
+                            <span>Material</span>
+                            <p id="infoMaterial">-</p>
+                        </div>
+                        <div>
+                            <span>Inventory</span>
+                            <p id="infoInventory">-</p>
+                        </div>
+                    </div>
+                </section> -->
+            <!-- </aside> -->
+        </main>
+
+        <footer id="controlsBar" class="control-bar hidden"></footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
