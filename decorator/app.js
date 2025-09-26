@@ -5,6 +5,9 @@ const leftListEl = document.getElementById('leftList');
 const searchInput = document.getElementById('search');
 const clearSearchBtn = document.getElementById('clearSearch');
 const modeButtons = document.querySelectorAll('.mode-toggle button');
+const categoryDropdown = document.getElementById('categoryDropdown');
+const categoryDropdownButton = document.getElementById('categoryDropdownButton');
+const categoryDropdownMenu = document.getElementById('categoryDropdownMenu');
 
 const state = {
     visible: false,
@@ -53,6 +56,38 @@ function getItemIcon(item) {
     }
 }
 
+function getCategoryIcon(categoryName) {
+    const name = categoryName?.toLowerCase() || '';
+    
+    if (name.includes('laundry') || name.includes('washing')) {
+        return '👕';
+    } else if (name.includes('prop') || name.includes('props')) {
+        return '📦';
+    } else if (name.includes('tools') || name.includes('garage')) {
+        return '🔧';
+    } else if (name.includes('guitar') || name.includes('music')) {
+        return '🎸';
+    } else if (name.includes('collectibles') || name.includes('collection')) {
+        return '💎';
+    } else if (name.includes('furniture') || name.includes('chair') || name.includes('table')) {
+        return '🪑';
+    } else if (name.includes('decoration') || name.includes('decor')) {
+        return '🎨';
+    } else if (name.includes('electronic') || name.includes('tech')) {
+        return '📺';
+    } else if (name.includes('kitchen') || name.includes('cooking')) {
+        return '🍳';
+    } else if (name.includes('bathroom') || name.includes('bath')) {
+        return '🚿';
+    } else if (name.includes('bedroom') || name.includes('bed')) {
+        return '🛏️';
+    } else if (name.includes('living') || name.includes('sofa')) {
+        return '🛋️';
+    } else {
+        return '📦';
+    }
+}
+
 function getQuantityForItem(item) {
     // Generate a random quantity between 1-5 for demo purposes
     // In real implementation, this would come from the server
@@ -77,6 +112,79 @@ function renderEmpty(message) {
     empty.className = 'empty';
     empty.textContent = message;
     leftListEl.appendChild(empty);
+}
+
+function ensureSelectedCategory() {
+    if (!state.categories.length) {
+        state.selectedCategory = null;
+        updateCategoryDropdown();
+        return;
+    }
+    if (state.selectedCategory && state.categories.some(cat => cat.name === state.selectedCategory)) {
+        updateCategoryDropdown();
+        return;
+    }
+    const first = state.categories[0];
+    state.selectedCategory = first ? first.name : null;
+    updateCategoryDropdown();
+}
+
+function updateCategoryDropdown() {
+    if (!categoryDropdownButton || !categoryDropdownMenu) return;
+    
+    // Update button content
+    const selectedCategory = state.categories.find(cat => cat.name === state.selectedCategory);
+    const buttonContent = categoryDropdownButton.querySelector('.category-dropdown-content');
+    const buttonIcon = buttonContent.querySelector('.category-dropdown-icon');
+    const buttonText = buttonContent.querySelector('.category-dropdown-text');
+    
+    if (selectedCategory) {
+        buttonIcon.textContent = getCategoryIcon(selectedCategory.name);
+        buttonText.textContent = selectedCategory.label || selectedCategory.name;
+    } else {
+        buttonIcon.textContent = '📦';
+        buttonText.textContent = 'Select Category';
+    }
+    
+    // Update dropdown menu
+    categoryDropdownMenu.innerHTML = '';
+    
+    state.categories.forEach(category => {
+        const item = document.createElement('button');
+        item.className = 'category-dropdown-item';
+        if (category.name === state.selectedCategory) {
+            item.classList.add('active');
+        }
+        
+        const icon = document.createElement('div');
+        icon.className = 'category-dropdown-icon';
+        icon.textContent = getCategoryIcon(category.name);
+        
+        const text = document.createElement('span');
+        text.textContent = category.label || category.name;
+        
+        item.appendChild(icon);
+        item.appendChild(text);
+        
+        item.addEventListener('click', () => {
+            state.selectedCategory = category.name;
+            updateCategoryDropdown();
+            closeCategoryDropdown();
+            renderList();
+        });
+        
+        categoryDropdownMenu.appendChild(item);
+    });
+}
+
+function toggleCategoryDropdown() {
+    if (!categoryDropdown) return;
+    categoryDropdown.classList.toggle('open');
+}
+
+function closeCategoryDropdown() {
+    if (!categoryDropdown) return;
+    categoryDropdown.classList.remove('open');
 }
 
 function createItemCard(item) {
@@ -249,6 +357,7 @@ function renderList() {
 
 function setCategories(categories) {
     state.categories = categories || [];
+    ensureSelectedCategory();
     if (state.mode === 'edit') {
         renderList();
     }
@@ -328,6 +437,17 @@ if (searchInput) {
 if (clearSearchBtn) {
     clearSearchBtn.addEventListener('click', clearSearch);
 }
+
+if (categoryDropdownButton) {
+    categoryDropdownButton.addEventListener('click', toggleCategoryDropdown);
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (event) => {
+    if (categoryDropdown && !categoryDropdown.contains(event.target)) {
+        closeCategoryDropdown();
+    }
+});
 
 modeButtons.forEach(button => {
     button.addEventListener('click', () => {
